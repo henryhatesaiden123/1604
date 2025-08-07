@@ -2,3 +2,5 @@ requests
 Pillow
 keyboard
 pyperclip
+aiohttp
+PyInstaller

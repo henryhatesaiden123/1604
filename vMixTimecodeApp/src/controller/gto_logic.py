@@ -1,4 +1,3 @@
-
 def find_gto_blocks(b_values):
     """B열 값 리스트에서 '2'로 시작하고 '1'로 끝나는 모든 GTO 계획 블록의 인덱스를 찾습니다."""
     blocks = []
@@ -58,20 +57,17 @@ def check_single_gto_plan(plan):
 
     return True, "성공", []
 
-def validate_gto_logic(app_instance):
+def validate_gto_logic(app_instance, line_data_model, app_mode_value):
     """GTO-W 모드일 때 모든 GTO 계획의 유효성을 검사하고 UI에 피드백합니다."""
-    if app_instance.app_mode.get() != "GTO-W 감시용":
+    if app_mode_value != "GTO-W 감시용":
         return
 
     # 1. 모든 B열 배경색을 기본으로 초기화
-    for line in app_instance.line_entries:
-        line["button"].config(bg="#333333")
+    for line_entry in app_instance.line_entries:
+        line_entry["button"].config(bg="#333333")
 
     # 2. B열 값들을 숫자 리스트로 변환
-    b_values = []
-    for line in app_instance.line_entries:
-        val_str = line["button"].get().strip()
-        b_values.append(int(val_str) if val_str.isdigit() else 0)
+    b_values = line_data_model.get_all_b_values()
 
     # 3. GTO 계획 블록 찾기
     gto_blocks = find_gto_blocks(b_values)
