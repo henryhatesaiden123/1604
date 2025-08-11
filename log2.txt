@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "main.py", line 24, in <module>
+  File "src\view\app_view.py", line 84, in __init__
+    self.rebuild_ui() # 이 부분에서 UI가 실제로 생성됩니다.
+    ~~~~~~~~~~~~~~~^^
+  File "src\view\app_view.py", line 99, in rebuild_ui
+    e_btn = tk.Entry(self.line_frame, width=3, justify='center', bg="#333", fg="white")
+                     ^^^^^^^^^^^^^^^
+AttributeError: 'ActiveTimecodeApp' object has no attribute 'line_frame'. Did you mean: 'left_frame'?

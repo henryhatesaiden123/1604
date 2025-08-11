@@ -13,7 +13,8 @@ class LineDataModel:
                 "preview": "",
                 "button": "0",
                 "comment": "",
-                "input": ""
+                "input": "",
+                "description": ""
             })
 
     def get_line_data(self, index):

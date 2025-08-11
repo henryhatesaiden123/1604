@@ -174,4 +174,3 @@ class StatusCircleBar(tk.Frame):
             color = colors.get(status[idx] if idx < len(status) else 0, "yellow")
             canvas.delete("all")
             canvas.create_oval(2, 2, 14, 14, fill=color, outline="gray")
-        self.after(1000, self.update_status)

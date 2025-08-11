@@ -75,12 +75,18 @@ class ActiveTimecodeApp:
         self.paned_window.add(self.left_frame, width=485)
         self.right_frame = tk.Frame(self.paned_window, bg="black")
         self.paned_window.add(self.right_frame)
+
+        status_items = [("M", "Main vMix"), ("S", "Sub vMix"), ("T", "Tally")]
+        self.status_bar = StatusCircleBar(self.right_frame, lambda: self.controller.vmix_status, status_items)
+        self.status_bar.pack(pady=10)
+
         self.timecode_label = tk.Label(self.left_frame, text="--:--:--", font=("Helvetica", 36, "bold"), fg="#39FF14", bg="black", anchor="center")
         self.timecode_label.pack(pady=(5,1), fill=tk.X, padx=5)
         # ... (나머지 UI)
         self.previous_timecode_label_text = ""
         self.target_header_labels = []
         self.input_changer_labels = {}
+        self.widget_matrix = [] # widget_matrix 초기화
         self.rebuild_ui() # 이 부분에서 UI가 실제로 생성됩니다.
         # ... (기타 초기화)
         self.master.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -93,13 +99,38 @@ class ActiveTimecodeApp:
                 widget.destroy()
 
         self.line_entries = []
-        # ... (중략)
+        self.entry_grid_frame = tk.Frame(self.left_frame, bg="black")
+        self.entry_grid_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+        
+        header_frame = tk.Frame(self.entry_grid_frame, bg="black")
+        header_frame.pack(fill=tk.X)
+
+        headers = ["Time", "Preview", "Button", "Description"]
+        for i, header in enumerate(headers):
+            label = tk.Label(header_frame, text=header, font=("Helvetica", 10, "bold"), bg="black", fg="white")
+            label.pack(side=tk.LEFT, expand=True, fill=tk.X)
+
         for i in range(self.line_data_model.rail_count): # self.rail_count 대신 model 사용
-            # ... (e_time, e_preview 등 다른 위젯 생성)
-            e_btn = tk.Entry(self.line_frame, width=3, justify='center', bg="#333", fg="white")
+            line_frame = tk.Frame(self.entry_grid_frame, bg="black")
+            line_frame.pack(fill=tk.X, pady=1)
+
+            e_time = tk.Entry(line_frame, width=10, justify='center', bg="#333", fg="white")
+            e_time.insert(0, self.line_data_model.lines[i]["time"])
+            e_time.pack(side=tk.LEFT, padx=1)
+            
+            e_preview = tk.Entry(line_frame, width=10, justify='center', bg="#333", fg="white")
+            e_preview.insert(0, self.line_data_model.lines[i]["preview"])
+            e_preview.pack(side=tk.LEFT, padx=1)
+
+            e_btn = tk.Entry(line_frame, width=3, justify='center', bg="#333", fg="white")
             e_btn.insert(0, self.line_data_model.lines[i]["button"]) # self.lines 대신 model 사용
-            e_btn.grid(row=i+1, column=3, padx=1)
-            self.widget_matrix[i][3] = e_btn
+            e_btn.pack(side=tk.LEFT, padx=1) # grid 대신 pack 사용
+            
+            e_desc = tk.Entry(line_frame, bg="#333", fg="white")
+            e_desc.insert(0, self.line_data_model.lines[i]["description"])
+            e_desc.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=1)
+
+            self.widget_matrix.append([e_time, e_preview, e_btn, e_desc])
 
             # --- GTO-W 기능 추가 3: B열 수정 시 검사 함수 호출 ---
             e_btn.bind("<FocusOut>", lambda event, app=self: self.controller.validate_gto_logic_from_view(app)) # 컨트롤러의 메서드 호출

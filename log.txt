@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "main.py", line 9, in <module>
+  File "PyInstaller\loader\pyimod02_importers.py", line 457, in exec_module
+  File "src\view\app_view.py", line 21, in <module>
+    from src.controller.app_controller import AppController # AppController 임포트
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "PyInstaller\loader\pyimod02_importers.py", line 457, in exec_module
+  File "src\controller\app_controller.py", line 6, in <module>
+    import aiohttp # For async HTTP requests
+    ^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'aiohttp'
