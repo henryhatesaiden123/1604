@@ -2,10 +2,11 @@
 
 
 a = Analysis(
-    ['D:\\gemini02\\1604\\vMixTimecodeApp\\main.py'],
+    ['D:\\gemini02\\1064\\vMixTimecodeApp\\main.py'],
+
     pathex=[],
     binaries=[],
-    datas=[('D:\\gemini02\\1604\\vMixTimecodeApp\\settings.json', '.'), ('D:\\gemini02\\1604\\vMixTimecodeApp\\logs', 'logs'), ('D:\\gemini02\\1604\\vMixTimecodeApp\\src', 'src')],
+    datas=[('D:\gemini02\1064\vMixTimecodeApp\settings.json', '.'), ('D:\gemini02\1064\vMixTimecodeApp\logs', 'logs'), ('D:\gemini02\1064\vMixTimecodeApp\src', 'src')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
